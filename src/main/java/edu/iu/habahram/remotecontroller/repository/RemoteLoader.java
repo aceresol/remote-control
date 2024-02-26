@@ -8,8 +8,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RemoteLoader implements  IRemoteLoader{
+public class RemoteLoader implements IRemoteLoader{
+    private static RemoteLoader uniqueInstance;
     HashMap<Integer, RemoteControl> remoteControls = new HashMap<>();
+
+    private RemoteLoader() {
+    }
+
+    public static synchronized RemoteLoader getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new RemoteLoader();
+        }
+        return uniqueInstance;
+    }
     @Override
     public void setup(int id, List<DeviceData> devices) {
         RemoteControl remoteControl = new RemoteControl(devices.size());
